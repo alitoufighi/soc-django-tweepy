@@ -68,7 +68,7 @@ def info(request):
 def auth(request):
     # consumer_key = 'YkbgnKkRGXuXaIO7QxM5QcHVB'
     # consumer_secret = 'XOYVldvUOnkSkrtFRUh6ixV4HANKfYKlYLIDnstSTreg7mOLQJ'
-    oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, 'http://127.0.0.1:8000/callback/')
+    oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, 'http://alitou.pythonanywhere.com/callback/')
     sleep(1)
     auth_url = oauth.get_authorization_url(True)
     print (auth_url)
