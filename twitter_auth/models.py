@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from .validators import validate_file_extension
 
 # Create your models here.
 class Post(models.Model):
@@ -7,7 +8,7 @@ class Post(models.Model):
     # photo_address =
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
-    media = models.ImageField(blank=True, null=True, upload_to='images/')
+    media = models.ImageField(blank=True, null=True, upload_to='images/', validators=[validate_file_extension])
 
     def __str__(self):
         return self.text
