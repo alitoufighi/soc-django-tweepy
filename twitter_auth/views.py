@@ -3,10 +3,13 @@ import tweepy
 # import requests
 from time import sleep
 from django.http import *
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response, render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout
 from django.utils import timezone
+# from .settings import MEDIA_ROOT
+from django.conf import settings
+import requests
 
 
 from .forms import PostForm
@@ -45,16 +48,19 @@ def info(request):
         api = get_api(request)
         user = api.me()
         if request.method == 'POST':
-            form = PostForm(request.POST)
+            form = PostForm(request.POST, request.FILES)
             if form.is_valid():
                 post = form.save(commit=False)
                 post.published_date = timezone.now()
                 post.save()
 
-                api.update_status(status=post.text)
-                print('Sent To Twitter: ' + post.text)
+                file_address = "%s%s" % (settings.MEDIA_ROOT, post.media)
+                # api.update_status(status=post.text)
+                api.update_with_media(filename=file_address, status=post.text)
+                
                 # return render_to_response('twitter_auth/info.html', {'user': user, 'post': post})
             else:
+                print ('invalid form')
                 post = Post(text='')
         else:
             form = PostForm()
@@ -71,8 +77,8 @@ def auth(request):
     oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, 'http://alitou.pythonanywhere.com/callback/')
     sleep(1)
     auth_url = oauth.get_authorization_url(True)
-    print (auth_url)
-    print (oauth.access_token)
+    # print (auth_url)
+    # print (oauth.access_token)
     # auth_url = oauth.get_authorization_url(True)
     response = HttpResponseRedirect(auth_url)
     # store the request token

@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'alitou.pythonanywhere.com']
 
+MEDIA_ROOT = '/home/alitou/Documents/projects/Django/DjangoTweepy/src/media/'
+MEDIA_URL = '/media/'
+
 # Application definition
 
 INSTALLED_APPS = [

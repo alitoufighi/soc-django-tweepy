@@ -7,6 +7,7 @@ class Post(models.Model):
     # photo_address =
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
+    media = models.ImageField(blank=True, null=True, upload_to='images/')
 
     def __str__(self):
         return self.text
