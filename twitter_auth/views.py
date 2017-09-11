@@ -9,6 +9,7 @@ from django.contrib.auth import logout
 from django.utils import timezone
 # from .settings import MEDIA_ROOT
 from django.conf import settings
+import os
 import requests
 
 
@@ -57,7 +58,8 @@ def info(request):
                 file_address = "%s%s" % (settings.MEDIA_ROOT, post.media)
                 # api.update_status(status=post.text)
                 api.update_with_media(filename=file_address, status=post.text)
-                
+                # Delete file
+                os.remove(file_address)
                 # return render_to_response('twitter_auth/info.html', {'user': user, 'post': post})
             else:
                 print ('invalid form')
