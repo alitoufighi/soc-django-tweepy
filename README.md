@@ -1,2 +1,2 @@
 # soc-django-tweepy
-Sending tweets (with authorization) using tweepy and django
+Sending tweets (with Oauth authorization) using tweepy and django
