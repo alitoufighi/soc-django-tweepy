@@ -51,8 +51,9 @@ def info(request):
         if 'telegram' in request.POST:
             request.session['telegram_id'] = request.POST['telegram-id']
 
-        if not request.session['telegram_id']:
-            request.session['telegram_id'] = None
+        telegram_id = request.session.get('telegram_id', None)
+            if not telegram_id:
+                request.session['telegram_id'] = None
 
         try:
             twitter_api = get_twitter_api(request)
