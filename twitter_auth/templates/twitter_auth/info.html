@@ -12,7 +12,7 @@
 
 			<form method="POST" class="telegram-channel-id">{% csrf_token %}
                 <label for="telegram-id">Your Telegram Channel To Send Post (Optional):</label>
-				<input type="text" id="telegram-id" name="telegram-id" value={% if teleid %}{{teleid}}{% else %}''{% endif %}">
+				<input type="text" id="telegram-id" name="telegram-id" value={% if teleid %}{{teleid}}{% else %}{% endif %}">
 				<button type="submit" name="telegram" class="save btn btn-default">Add/Change telegram channel</button>
 			</form>
 

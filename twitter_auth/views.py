@@ -78,7 +78,7 @@ def info(request):
                     os.remove(file_address)
                 else: # Post only with text
                     if request.session['telegram_id']:
-                        print('Sent To Telegram!')
+                        twitter_api.update_status(status=post.text)
                         telegram_send_message(text=post.text, id=request.session['telegram_id'])
 
 
