@@ -95,7 +95,7 @@ def info(request):
 
 
 def auth(request):
-    oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, '/callback/')
+    oauth = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET, 'http://alitou.pythonanywhere.com/callback/')
     sleep(0.1) # To prevent continuous requests to twitter
     auth_url = oauth.get_authorization_url(True)
     response = HttpResponseRedirect(auth_url)
