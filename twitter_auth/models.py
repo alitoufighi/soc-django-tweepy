@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from .validators import validate_file_extension
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Post(models.Model):
@@ -16,3 +17,15 @@ class Post(models.Model):
     def publish(self):
         self.published_date = timezone.now()
         self.save()
+
+# class MyUser(User):
+#     telegram_channel_id = models.CharField(blank=True, null=True)
+#
+#     def __str__(self):
+#         return self.username
+
+# class TelegramInfo(models.Model):
+#     channel_id = models.CharField(blank=False, null=False)
+#
+#     def __str__(self):
+#         return self.channel_id

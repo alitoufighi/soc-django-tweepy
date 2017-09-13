@@ -2,22 +2,33 @@
 
 	{% block content %}
 		<div id="container">
-			<img src="{{user.profile_image_url}}" />
+			<img src="{{user.profile_image_url}}"/>
 			<h3>{{user.name}}</h3>
 			<p>{{user.screen_name}}<p/>
+            {% if teleid %}
+                <p>Telegram Channel ID: {{ teleid }}</p>
+            {% endif %}
 			<a href="/logout/" title="logout">logout</a>
+
+			<form method="POST" class="telegram-channel-id">{% csrf_token %}
+                <label for="telegram-id">Your Telegram Channel To Send Post (Optional):</label>
+				<input type="text" id="telegram-id" name="telegram-id" value=" {% if teleid %}{{teleid}}{% else %} '' {% endif %}">
+				<button type="submit" name="telegram" class="save btn btn-default">Add/Change telegram channel</button>
+			</form>
+
+			<h1>New Post</h1>
+				<form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
+				{{ form.as_table }}
+				<button type="submit" name="post" class="save btn btn-default">Post</button>
+			</form>
+
+			{% if post.published_date %}
+				<h1>This is what you have posted recently:</h1>
+				<div class="post-text">
+					<p>{{ post.text|linebreaksbr }}</p>
+				</div>
+			{% endif %}
 		</div>
 
-		<h1>New Post</h1>
-		<form method="POST" class="post-form" enctype="multipart/form-data">{% csrf_token %}
-			{{ form.as_table }}
-			<button type="submit" class="save btn btn-default">Post To Twitter</button>
-		</form>
 
-		{% if post.published_date %}
-			<h1>This is what you have posted recently:</h1>
-			<div class="post-text">
-				<p>{{ post.text|linebreaksbr }}</p>
-			</div>
-		{% endif %}
 	{% endblock %}
