@@ -6,6 +6,9 @@ CONSUMER_SECRET = 'XOYVldvUOnkSkrtFRUh6ixV4HANKfYKlYLIDnstSTreg7mOLQJ'
 
 TELE_TOKEN = '332670886:AAENLmE6sF8sx5RKeXqfF16X2nJFylvd9EY'
 
+INSTA_API_KEY = ''
+ONSTA_API_SECRET = ''
+
 def telegram_send_message(text, id, file_address=None): # file type?
 	if file_address == None:
 		method = 'sendMessage'
@@ -27,3 +30,6 @@ def get_twitter_api(request):
 	oauth.set_access_token(access_key, access_secret)
 	api = tweepy.API(oauth)
 	return api
+
+def get_insta_api(request):
+	oauth = 
