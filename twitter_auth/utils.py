@@ -31,5 +31,5 @@ def get_twitter_api(request):
 	api = tweepy.API(oauth)
 	return api
 
-def get_insta_api(request):
-	oauth = 
+# def get_insta_api(request):
+# 	oauth =

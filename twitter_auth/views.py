@@ -1,5 +1,7 @@
 # Create your views here.
 import tweepy
+from InstagramAPI import InstagramAPI
+
 # import requests
 
 from time import sleep
@@ -28,10 +30,10 @@ def main(request):
     main view of app, either login page or info page
     """
     # if we haven't authorised yet, direct to login page
-    if check_twitter_key(request):
-        return HttpResponseRedirect(reverse('info'))
-    else:
-        return render_to_response('twitter_auth/login.html')
+    # if check_twitter_key(request):
+    return HttpResponseRedirect(reverse('info'))
+    # else:
+    #     return render_to_response('twitter_auth/login.html')
 
 
 def unauth(request):
@@ -46,53 +48,71 @@ def unauth(request):
 
 
 def info(request):
-    if check_twitter_key(request):
+    # if check_twitter_key(request):
 
-        if 'telegram' in request.POST:
-            request.session['telegram_id'] = request.POST['telegram-id']
+    if 'telegram' in request.POST:
+        request.session['telegram_id'] = request.POST['telegram-id']
 
-        telegram_id = request.session.get('telegram_id', None)
-        if not telegram_id:
-            request.session['telegram_id'] = None
+    telegram_id = request.session.get('telegram_id', None)
+    if not telegram_id:
+        # print (telegram_id)
+        request.session['telegram_id'] = None
 
-        try:
-            twitter_api = get_twitter_api(request)
-            user = twitter_api.me()
-        except tweepy.TweepError:
-            return render(request, 'twitter_auth/vpn.html')
+    if 'insta' in request.POST:
+        request.session['insta_id'] = request.POST['insta-un']
+        request.session['insta_pw'] = request.POST['insta-pw']
+    insta_id = request.session.get('insta_id', None)
+    if not insta_id:
+        request.session['insta_id'] = None
+    # try:
+    #     twitter_api = get_twitter_api(request)
+    #     user = twitter_api.me()
+    # except tweepy.TweepError:
+    #     return render(request, 'twitter_auth/vpn.html')
 
-        if 'post' in request.POST:
-            form = PostForm(request.POST, request.FILES)
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.published_date = timezone.now()
-                post.save()
+    if 'post' in request.POST:
+        form = PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.published_date = timezone.now()
+            post.save()
 
-                # x = guess_type('127.0.0.1:8000/info/', strict=True)
-                # print (x)
-
-                if post.media: # Post with media
-                    file_address = "%s%s" % (settings.MEDIA_ROOT, post.media)
-                    twitter_api.update_with_media(filename=file_address, status=post.text)
+            if post.media: # Post with media
+                file_address = "%s%s" % (settings.MEDIA_ROOT, post.media)
+                # twitter_api.update_with_media(filename=file_address, status=post.text)
+                if 'telegram_id' in request.session:
+                    print ('tele!')
                     telegram_send_message(text=post.text, id=request.session['telegram_id'], file_address=file_address)
-                    os.remove(file_address)
-                else: # Post only with text
-                    if request.session['telegram_id']:
-                        telegram_send_message(text=post.text, id=request.session['telegram_id'])
-                        twitter_api.update_status(status=post.text)
+
+
+                if 'insta_id' in request.session:
+                # username, pwd = 'utsoctest', 'aliali'
+                    insta_un = request.session.get('insta_id')
+                    insta_pw = request.session.get('insta_pw')
+                    Insta = InstagramAPI(insta_un, insta_pw)
+                    Insta.login()  # login
+                    Insta.uploadPhoto(file_address, caption=post.text)
+
+                os.remove(file_address)
+            else: # Post only with text
+                if request.session['telegram_id']:
+                    telegram_send_message(text=post.text, id=request.session['telegram_id'])
+                    # twitter_api.update_status(status=post.text)
 
 
 
 
-            else:
-                print ('invalid form')
-                post = Post(text='')
         else:
-            form = PostForm()
+            print ('invalid form')
             post = Post(text='')
-        return render(request, 'twitter_auth/info.html', {'user': user, 'post': post, 'form': form, 'teleid': request.session['telegram_id']})
     else:
-        return HttpResponseRedirect(reverse('main'))
+        form = PostForm()
+        post = Post(text='')
+    # return render(request, 'twitter_auth/info.html', {'user': user, 'post': post, 'form': form, 'teleid': request.session['telegram_id']})
+    return render(request, 'twitter_auth/info.html',
+                      {'post': post, 'form': form, 'teleid': request.session['telegram_id'], 'instaid': request.session['insta_id']})
+    # else:
+    #     return HttpResponseRedirect(reverse('main'))
 
 
 def auth(request):
@@ -124,13 +144,13 @@ def callback(request):
 
 def check_twitter_key(request):
     try:
-        access_key = request.session.get('access_key_tw', None)
+        # access_key = request.session.get('access_key_tw', None)
+        access_key = request.session.get('')
         if not access_key:
             return False
     except KeyError:
         return False
     return True
 
-def check_telegram_id(request):
-    try:
-        id = request.session.get('telegram_id')
+# def check_telegram_id(request):
+#         id = request.session.get('telegram_id')
