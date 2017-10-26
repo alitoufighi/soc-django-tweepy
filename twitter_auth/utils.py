@@ -1,5 +1,6 @@
 import tweepy
 import requests
+from InstagramAPI import InstagramAPI
 
 CONSUMER_KEY = 'YkbgnKkRGXuXaIO7QxM5QcHVB'
 CONSUMER_SECRET = 'XOYVldvUOnkSkrtFRUh6ixV4HANKfYKlYLIDnstSTreg7mOLQJ'
@@ -15,12 +16,18 @@ def telegram_send_message(text, id, file_address=None): # file type?
 		response = requests.post(
 			url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, method),
 			data={'chat_id': '@{0}'.format(id), 'text': text}).json()
-	else:
+	elif len(text)<=200:
 		method = 'sendPhoto'
 		response = requests.post(
 			url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, method),
 			data={'chat_id': '@{0}'.format(id), 'caption': text},
 			files={'photo': open(file_address, 'rb'),}).json()
+	else:
+		text='<a href="' + file_address + '">&#8205;</a>'+text
+		method = 'sendMessage'
+		response = requests.post(
+			url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, method),
+			data={'chat_id': '@{0}'.format(id), 'text': text, 'parse_mode':'HTML'}).json()
 	return response
 
 def get_twitter_api(request):
@@ -32,4 +39,10 @@ def get_twitter_api(request):
 	return api
 
 # def get_insta_api(request):
-# 	oauth =
+
+def instagram_send_message(request, text, file):
+	insta_un = request.session.get('insta_id')
+	insta_pw = request.session.get('insta_pw')
+	Insta = InstagramAPI(insta_un, insta_pw)
+	Insta.login()  # login
+	Insta.uploadPhoto(file, caption=text)

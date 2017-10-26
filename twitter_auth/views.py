@@ -64,6 +64,13 @@ def info(request):
     insta_id = request.session.get('insta_id', None)
     if not insta_id:
         request.session['insta_id'] = None
+
+    if 'insta-remove' in request.POST:
+        request.session['insta_id'] = None
+
+    if 'tele-remove' in request.POST:
+        request.session['telegram_id'] = None
+
     # try:
     #     twitter_api = get_twitter_api(request)
     #     user = twitter_api.me()
@@ -81,23 +88,24 @@ def info(request):
                 file_address = "%s%s" % (settings.MEDIA_ROOT, post.media)
                 # twitter_api.update_with_media(filename=file_address, status=post.text)
                 if 'telegram_id' in request.session:
-                    print ('tele!')
                     telegram_send_message(text=post.text, id=request.session['telegram_id'], file_address=file_address)
 
 
                 if 'insta_id' in request.session:
                 # username, pwd = 'utsoctest', 'aliali'
-                    insta_un = request.session.get('insta_id')
-                    insta_pw = request.session.get('insta_pw')
-                    Insta = InstagramAPI(insta_un, insta_pw)
-                    Insta.login()  # login
-                    Insta.uploadPhoto(file_address, caption=post.text)
+
+
+                    instagram_send_message(request, text= post.text, file=file_address)
 
                 os.remove(file_address)
             else: # Post only with text
-                if request.session['telegram_id']:
+                # if request.session['telegram_id']:
+                if 'telegram_id' in request.session:
                     telegram_send_message(text=post.text, id=request.session['telegram_id'])
+                # if 'twitter' in request.session:
                     # twitter_api.update_status(status=post.text)
+
+
 
 
 

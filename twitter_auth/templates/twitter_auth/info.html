@@ -25,6 +25,7 @@
                 <label for="telegram-id">Your Telegram Channel To Send Post (Optional):</label>
 				<input type="text" id="telegram-id" name="telegram-id" value="{% if teleid %}{{teleid}}{% else %}{% endif %}" placeholder="Telegram ID">
 				<button type="submit" name="telegram" class="save btn btn-default">Add/Change Telegram Channel</button>
+                <button type="submit" name="tele-remove">Remove</button>
 			</form>
 
             <form method="POST" class="insta-info">{% csrf_token %}
@@ -32,6 +33,7 @@
                 <input type="text" id="insta-un" name="insta-un" value="{% if insta_un %}{{ instaun }}{% else %}{% endif %}" placeholder="Insta Username">
                 <input type="text" id="insta-pw" name="insta-pw" value="" placeholder="Insta Password">
                 <button type="submit" name="insta" class="save btn btn-default">Add/Change Instagram Page</button>
+                <button type="submit" name="insta-remove">Remove</button>
             </form>
 
 			<h1>New Post</h1>
