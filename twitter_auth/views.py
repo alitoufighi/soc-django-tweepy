@@ -49,21 +49,23 @@ def unauth(request):
 
 def info(request):
     # if check_twitter_key(request):
-
+    # print (request.session)
     if 'telegram' in request.POST:
         request.session['telegram_id'] = request.POST['telegram-id']
 
     telegram_id = request.session.get('telegram_id', None)
-    if not telegram_id:
-        # print (telegram_id)
-        request.session['telegram_id'] = None
+    # if not telegram_id:
+    #     # print (telegram_id)
+    #     request.session['telegram_id'] = None
 
     if 'insta' in request.POST:
         request.session['insta_id'] = request.POST['insta-un']
         request.session['insta_pw'] = request.POST['insta-pw']
-    insta_id = request.session.get('insta_id', None)
-    if not insta_id:
-        request.session['insta_id'] = None
+    # insta_id = request.session.get('insta_id', None)
+    insta_id = request.session['insta_id']
+    # if not insta_id:
+    #     print (insta_id)
+    #     request.session['insta_id'] = None
 
     if 'insta-remove' in request.POST:
         request.session['insta_id'] = None
@@ -73,7 +75,7 @@ def info(request):
 
     # try:
     #     twitter_api = get_twitter_api(request)
-    #     user = twitter_api.me()
+    #     # user = twitter_api.me()
     # except tweepy.TweepError:
     #     return render(request, 'twitter_auth/vpn.html')
 
@@ -86,23 +88,26 @@ def info(request):
 
             if post.media: # Post with media
                 file_address = "%s%s" % (settings.MEDIA_ROOT, post.media)
-                # twitter_api.update_with_media(filename=file_address, status=post.text)
-                if 'telegram_id' in request.session:
-                    telegram_send_message(text=post.text, id=request.session['telegram_id'], file_address=file_address)
+                file_host_address = '%s/%s' % (request.get_host(), post.media)
+                # if 'telegram_id' in request.session != None:
+                if telegram_id != None:
+                    telegram_send_message(file_host_address, text=post.text, id=request.session['telegram_id'], file_address=file_address)
 
-
-                if 'insta_id' in request.session:
-                # username, pwd = 'utsoctest', 'aliali'
-
-
+                # if 'insta_id' in request.session != None:
+                if insta_id != None:
                     instagram_send_message(request, text= post.text, file=file_address)
 
-                os.remove(file_address)
+                if 'twitter' in request.session != None:
+                    pass
+                    # twitter_api.update_with_media(filename=file_address, status=post.text)
+
+                # os.remove(file_address)
             else: # Post only with text
                 # if request.session['telegram_id']:
-                if 'telegram_id' in request.session:
+                if 'telegram_id' in request.session != None:
                     telegram_send_message(text=post.text, id=request.session['telegram_id'])
-                # if 'twitter' in request.session:
+                if 'twitter' in request.session:
+                    pass
                     # twitter_api.update_status(status=post.text)
 
 

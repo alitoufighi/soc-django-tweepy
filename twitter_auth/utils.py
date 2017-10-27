@@ -1,7 +1,12 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
 import tweepy
 import requests
 from InstagramAPI import InstagramAPI
+import sys
 
+reload(sys)
+sys.setdefaultencoding('utf8')
 CONSUMER_KEY = 'YkbgnKkRGXuXaIO7QxM5QcHVB'
 CONSUMER_SECRET = 'XOYVldvUOnkSkrtFRUh6ixV4HANKfYKlYLIDnstSTreg7mOLQJ'
 
@@ -10,7 +15,7 @@ TELE_TOKEN = '332670886:AAENLmE6sF8sx5RKeXqfF16X2nJFylvd9EY'
 INSTA_API_KEY = ''
 ONSTA_API_SECRET = ''
 
-def telegram_send_message(text, id, file_address=None): # file type?
+def telegram_send_message(file_host_address, text, id, file_address=None): # file type?
 	if file_address == None:
 		method = 'sendMessage'
 		response = requests.post(
@@ -23,11 +28,27 @@ def telegram_send_message(text, id, file_address=None): # file type?
 			data={'chat_id': '@{0}'.format(id), 'caption': text},
 			files={'photo': open(file_address, 'rb'),}).json()
 	else:
-		text='<a href="' + file_address + '">&#8205;</a>'+text
+		# response = requests.post(
+		# 	url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, 'sendPhoto'),
+		# 	data={'chat_id': '@imatovimatovimatovimatovimatov'},
+		# 	files={'photo': open(file_address, 'rb'), }).json()
+		# file_id = response['result']['photo'][1]['file_id']
+		# response = requests.get(
+		# 	url='https://api.telegram.org/bot{0}/getFile?file_id={1}'.format(TELE_TOKEN, file_id),
+		# ).json()
+		# file_path = response['result']['file_path']
+		# file_url='https://api.telegram.org/file/bot{0}/{1}'.format(TELE_TOKEN, file_path)
+		# print (file_address)
+		# host=request.get_host()
+		# print (host)
+		# file_address=host+file_address
+		print (file_host_address)
+		text='[​​​​​​​​​​​]({0}) {1}'.format(file_host_address,text)
 		method = 'sendMessage'
+		# print (text)
 		response = requests.post(
 			url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, method),
-			data={'chat_id': '@{0}'.format(id), 'text': text, 'parse_mode':'HTML'}).json()
+			data={'chat_id': '@{0}'.format(id), 'text': text, 'parse_mode':'markdown'}).json()
 	return response
 
 def get_twitter_api(request):
