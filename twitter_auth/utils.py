@@ -4,8 +4,10 @@ import tweepy
 import requests
 from InstagramAPI import InstagramAPI
 import sys
-
-reload(sys)
+import importlib
+importlib.reload(sys)
+#
+# reload(sys)
 sys.setdefaultencoding('utf8')
 CONSUMER_KEY = 'YkbgnKkRGXuXaIO7QxM5QcHVB'
 CONSUMER_SECRET = 'XOYVldvUOnkSkrtFRUh6ixV4HANKfYKlYLIDnstSTreg7mOLQJ'
