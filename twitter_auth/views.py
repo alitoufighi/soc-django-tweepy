@@ -79,11 +79,14 @@ def info(request):
             post.save()
 
             if post.media: # Post with media
-                file_address = "%s%s" % (settings.MEDIA_ROOT, post.media)
+                file_address = "%s/%s" % (settings.MEDIA_ROOT, post.media)
                 fs = FileSystemStorage()
                 filename = fs.save(post.media.name, post.media)
                 uploaded_file_url = fs.url(filename)
-                uploaded_file_url=request.get_host() + uploaded_file_url
+                host = request.get_host()
+                uploaded_file_url=host + uploaded_file_url
+                print ('host:', host)
+                print ('url:', uploaded_file_url)
                 if telegram_id != None:
                     telegram_send_message(uploaded_file_url, text=post.text, id=request.session['telegram_id'], file_address=file_address)
 
