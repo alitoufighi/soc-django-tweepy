@@ -89,7 +89,9 @@ def info(request):
                 print ('file address', file_address)
                 print ('url:', uploaded_file_url)
                 if telegram_id != None:
-                    telegram_send_message(uploaded_file_url, text=post.text, id=request.session['telegram_id'], file_address=file_address)
+                    telegram_send_message(text=post.text, id=request.session['telegram_id'],
+                                          file_address=file_address, file_url=uploaded_file_url)
+                    # telegram_send_message(uploaded_file_url, text=post.text, id=request.session['telegram_id'], file_address=file_address)
 
                 if insta_id != None:
                     instagram_send_message(request, text= post.text, file=file_address)

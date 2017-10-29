@@ -12,7 +12,7 @@ TELE_TOKEN = '332670886:AAENLmE6sF8sx5RKeXqfF16X2nJFylvd9EY'
 INSTA_API_KEY = ''
 ONSTA_API_SECRET = ''
 
-def telegram_send_message(file_host_address, text, id, file_address=None): # file type?
+def telegram_send_message(text, id, file_address=None, file_url=None): # file type?
 	if file_address == None:
 		method = 'sendMessage'
 		response = requests.post(
@@ -23,10 +23,10 @@ def telegram_send_message(file_host_address, text, id, file_address=None): # fil
 		response = requests.post(
 			url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, method),
 			data={'chat_id': '@{0}'.format(id), 'caption': text},
-			# files={'photo': open(file_address, 'rb'),}).json()
-			files={'photo': file_host_address}).json()
+			files={'photo': open(file_address, 'rb'),}).json()
+			# files={'photo': file_address}).json()
 	else:
-		text='[​​​​​​​​​​​]({0}){1}'.format(file_host_address,text)
+		text='[​​​​​​​​​​​]({0}){1}'.format(file_url,text)
 		method = 'sendMessage'
 		response = requests.post(
 			url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, method),
