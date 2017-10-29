@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="454532b1-58da-4a30-b1f1-7e474c469d27" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/twitter_auth/utils.py" afterPath="$PROJECT_DIR$/twitter_auth/utils.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/twitter_auth/views.py" afterPath="$PROJECT_DIR$/twitter_auth/views.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -17,11 +18,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="utils.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="utils.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/twitter_auth/utils.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="45" />
+            <state relative-caret-position="540">
+              <caret line="30" column="16" lean-forward="false" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
               <folding>
                 <element signature="e#42#55#0" expanded="true" />
               </folding>
@@ -41,11 +42,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/twitter_auth/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="81" column="35" lean-forward="false" selection-start-line="81" selection-start-column="35" selection-end-line="81" selection-end-column="35" />
+            <state relative-caret-position="558">
+              <caret line="91" column="59" lean-forward="false" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="59" />
               <folding>
                 <element signature="e#26#39#0" expanded="true" />
               </folding>
@@ -166,8 +167,8 @@
         <option value="$PROJECT_DIR$/twitter_auth/templates/twitter_auth/info.html" />
         <option value="$PROJECT_DIR$/djangotweepy/urls.py" />
         <option value="$PROJECT_DIR$/djangotweepy/settings.py" />
-        <option value="$PROJECT_DIR$/twitter_auth/utils.py" />
         <option value="$PROJECT_DIR$/twitter_auth/views.py" />
+        <option value="$PROJECT_DIR$/twitter_auth/utils.py" />
       </list>
     </option>
   </component>
@@ -974,22 +975,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/twitter_auth/utils.py">
+    <entry file="file://$PROJECT_DIR$/twitter_auth/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="25" column="45" lean-forward="false" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="45" />
+        <state relative-caret-position="558">
+          <caret line="91" column="59" lean-forward="false" selection-start-line="91" selection-start-column="42" selection-end-line="91" selection-end-column="59" />
           <folding>
-            <element signature="e#42#55#0" expanded="true" />
+            <element signature="e#26#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/twitter_auth/views.py">
+    <entry file="file://$PROJECT_DIR$/twitter_auth/utils.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="81" column="35" lean-forward="false" selection-start-line="81" selection-start-column="35" selection-end-line="81" selection-end-column="35" />
+        <state relative-caret-position="540">
+          <caret line="30" column="16" lean-forward="false" selection-start-line="30" selection-start-column="16" selection-end-line="30" selection-end-column="16" />
           <folding>
-            <element signature="e#26#39#0" expanded="true" />
+            <element signature="e#42#55#0" expanded="true" />
           </folding>
         </state>
       </provider>

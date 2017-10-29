@@ -86,6 +86,7 @@ def info(request):
                 host = request.get_host()
                 uploaded_file_url=host + uploaded_file_url
                 print ('host:', host)
+                print ('file address', file_address)
                 print ('url:', uploaded_file_url)
                 if telegram_id != None:
                     telegram_send_message(uploaded_file_url, text=post.text, id=request.session['telegram_id'], file_address=file_address)
