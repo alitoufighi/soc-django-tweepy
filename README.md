@@ -1,2 +1,4 @@
-# soc-django-tweepy
-Sending tweets (with Oauth authorization) using tweepy and django
+# UTSoC
++ Sending tweets (with Oauth authorization) using Tweepy
++ Sending posts to Instagram using Instagram's private API
++ Sending posts to Telegram Channels using Telegram Bot API
