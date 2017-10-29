@@ -57,7 +57,7 @@ def info(request):
     if 'insta' in request.POST:
         request.session['insta_id'] = request.POST['insta-un']
         request.session['insta_pw'] = request.POST['insta-pw']
-    insta_id = request.session['insta_id']
+    insta_id = request.session.get('insta_id', None)
 
     if 'insta-remove' in request.POST:
         request.session['insta_id'] = None

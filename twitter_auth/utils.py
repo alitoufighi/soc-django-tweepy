@@ -25,7 +25,7 @@ def telegram_send_message(file_host_address, text, id, file_address=None): # fil
 			data={'chat_id': '@{0}'.format(id), 'caption': text},
 			files={'photo': open(file_address, 'rb'),}).json()
 	else:
-		text='[​​​​​​​​​​​]({0}) {1}'.format(file_host_address,text)
+		text='[​​​​​​​​​​​]({0}){1}'.format(file_host_address,text)
 		method = 'sendMessage'
 		response = requests.post(
 			url='https://api.telegram.org/bot{0}/{1}'.format(TELE_TOKEN, method),
