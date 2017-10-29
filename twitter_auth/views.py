@@ -102,8 +102,9 @@ def info(request):
 
                 # os.remove(file_address)
             else: # Post only with text
-                if 'telegram_id' in request.session != None:
-                    telegram_send_message(text=post.text, id=request.session['telegram_id'])
+                # if 'telegram_id' in request.session != None:
+                if telegram_id != None:
+                    telegram_send_message(text=post.text, id=telegram_id)
                 if 'twitter' in request.session:
                     pass
                     # twitter_api.update_status(status=post.text)
@@ -121,7 +122,7 @@ def info(request):
         post = Post(text='')
     # return render(request, 'twitter_auth/info.html', {'user': user, 'post': post, 'form': form, 'teleid': request.session['telegram_id']})
     return render(request, 'twitter_auth/info.html',
-                      {'post': post, 'form': form, 'teleid': request.session['telegram_id'], 'instaid': request.session['insta_id']})
+                      {'post': post, 'form': form, 'teleid': telegram_id, 'instaid': insta_id})
     # else:
     #     return HttpResponseRedirect(reverse('main'))
 
