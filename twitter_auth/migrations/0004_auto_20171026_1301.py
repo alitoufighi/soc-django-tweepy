@@ -23,4 +23,7 @@ class Migration(migrations.Migration):
             name='text',
             field=models.TextField(max_length=2200),
         ),
+        # migrations.RunPython(
+        #
+        # ),
     ]

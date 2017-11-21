@@ -1,0 +1,15 @@
+{% extends "twitter_auth/base.html" %}
+
+	{% block content %}
+        <h3>Posts sent by {{ user }}</h3>
+        {% for post in posts %}
+            <div id="container">
+{#                <p>{{ post.created_date }}</p>#}
+                <a href="{% url 'post_info' pk=post.pk %}">{{ post.created_date }}</a>
+                <h4>{{ post.text }}</h4>
+                <img src="{{ post.media.url }}">
+                <p>Sent to {% if post.telegram_link %}{{ post.telegram_link }}, Tele {% endif %}{% if post.twitter_link %}{{ post.twitter_link }}, Twitter
+                {% endif %} {% if post.insta_link %}{{ post.insta_link }} Insta{% endif %}</p>
+            </div>
+        {% endfor %}
+	{% endblock %}

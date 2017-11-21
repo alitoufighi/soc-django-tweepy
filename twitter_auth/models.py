@@ -8,11 +8,16 @@ class Post(models.Model):
     text = models.TextField(max_length=2200, blank=False, null=False)
     # photo_address =
     # thumbnail=models.ImageField(blank=True, null=True)
-    # creator=models
+    creator = models.ForeignKey(User, null=True, blank=True)
     created_date = models.DateTimeField(default=timezone.now)
     published_date = models.DateTimeField(blank=True, null=True)
     media = models.ImageField(blank=True, null=True, upload_to='images/', validators=[validate_file_extension])
-    # media=models.FileField
+    # media = models.FileField
+
+    telegram_link = models.TextField(blank=True, null=True)
+    insta_link = models.TextField(blank=True, null=True)
+    twitter_link = models.TextField(blank=True, null=True)
+
 
     def __str__(self):
         return self.text

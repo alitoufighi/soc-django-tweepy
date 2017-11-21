@@ -1,23 +1,12 @@
-# Create your views here.
+    # Create your views here.
 import tweepy
-from InstagramAPI import InstagramAPI
-
-# import requests
-
 from time import sleep
 from django.http import *
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
 from django.contrib.auth import logout
-from django.utils import timezone
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
-import os
-from mimetypes import guess_type
-
-
-from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-import logging
 
 
 from .forms import *
@@ -48,7 +37,11 @@ def unauth(request):
     return HttpResponseRedirect(reverse('main'))
 
 
-def info(request):
+def post(request):
+
+    # POST KE SEND MISHE, MAN URL E POSTO TOYE TELEGRAMO INSTA MIKHAM! VASE SAVE
+
+    user = request.user
     if 'telegram' in request.POST:
         request.session['telegram_id'] = request.POST['telegram-id']
 
@@ -76,6 +69,7 @@ def info(request):
         if form.is_valid():
             post = form.save(commit=False)
             post.published_date = timezone.now()
+            post.creator = request.user
             post.save()
 
             if post.media: # Post with media
@@ -85,16 +79,19 @@ def info(request):
                 uploaded_file_url = fs.url(filename)
                 host = request.get_host()
                 uploaded_file_url=host + uploaded_file_url
-                print ('host:', host)
-                print ('file address', file_address)
-                print ('url:', uploaded_file_url)
                 if telegram_id != None:
-                    telegram_send_message(text=post.text, id=request.session['telegram_id'],
+                    try:
+                        telegram_send_message(text=post.text, id=telegram_id,
                                           file_address=file_address, file_url=uploaded_file_url)
+                    except:
+                        pass
                     # telegram_send_message(uploaded_file_url, text=post.text, id=request.session['telegram_id'], file_address=file_address)
 
                 if insta_id != None:
-                    instagram_send_message(request, text= post.text, file=file_address)
+                    try:
+                        instagram_send_message(request, text= post.text, file=file_address)
+                    except:
+                        pass
 
                 if 'twitter' in request.session != None:
                     pass
@@ -102,17 +99,14 @@ def info(request):
 
                 # os.remove(file_address)
             else: # Post only with text
-                # if 'telegram_id' in request.session != None:
                 if telegram_id != None:
-                    telegram_send_message(text=post.text, id=telegram_id)
+                    try:
+                        telegram_send_message(text=post.text, id=telegram_id)
+                    except:
+                        pass
                 if 'twitter' in request.session:
                     pass
                     # twitter_api.update_status(status=post.text)
-
-
-
-
-
 
         else:
             print ('invalid form')
@@ -122,7 +116,7 @@ def info(request):
         post = Post(text='')
     # return render(request, 'twitter_auth/info.html', {'user': user, 'post': post, 'form': form, 'teleid': request.session['telegram_id']})
     return render(request, 'twitter_auth/info.html',
-                      {'post': post, 'form': form, 'teleid': telegram_id, 'instaid': insta_id})
+                      {'post': post, 'form': form, 'teleid': telegram_id, 'instaid': insta_id, 'user': user})
     # else:
     #     return HttpResponseRedirect(reverse('main'))
 
@@ -132,7 +126,6 @@ def auth(request):
     sleep(0.1) # To prevent continuous requests to twitter
     auth_url = oauth.get_authorization_url(True)
     response = HttpResponseRedirect(auth_url)
-    # store the request token in user session
     request.session['request_token'] = oauth.request_token
     return response
 
@@ -166,3 +159,20 @@ def check_twitter_key(request):
 
 # def check_telegram_id(request):
 #         id = request.session.get('telegram_id')
+
+def login(request):
+    pass
+
+def signup(request):
+    pass
+
+def post_list(request):
+    posts = Post.objects.filter(creator=request.user).order_by('published_date')
+    return render(request, 'twitter_auth/postlist.html', {'posts':posts, 'user':request.user})
+
+def post_info(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    if post.creator == request.user:
+        return render(request, 'twitter_auth/post_detail.html', {'post': post})
+    else:
+        return render(request, 'twitter_auth/access_denied.html')

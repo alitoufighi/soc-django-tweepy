@@ -2,13 +2,15 @@
 
 	{% block content %}
 		<div id="container">
-
+            {% if user.is_authenticated %}
+                <p>Active User is: <a href="/profile">{{ user }}</a></p>
+            {% endif %}
             {% if not twitter_login %}
                 <p><a href="/auth/"><img src="https://g.twimg.com/dev/sites/default/files/images_documentation/sign-in-with-twitter-gray.png" alt="sign in with twitter" /></a></p>
             {% else %}
                 <img src="{{user.profile_image_url}}"/>
 		    	<h3>{{user.name}}</h3>
-			    <p>{{user.screen_name}}<p/>
+			    <p>{{user.screen_name}}</p>
                 <a href="/logout/" title="logout">Logout from Twitter</a>
             {% endif %}
 
